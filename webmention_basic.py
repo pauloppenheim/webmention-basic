@@ -23,10 +23,11 @@ def application(environ, start_response):
     headers = []
     body = ""
     
+    source, target = None, None
     form = cgi.FieldStorage(environ=environ, fp=environ["wsgi.input"])
-    
-    source=form.getfirst("source").strip()
-    target=form.getfirst("target").strip()
+    if form:
+        source=form.getfirst("source").strip()
+        target=form.getfirst("target").strip()
     if source is None or target is None:
         status = '400 Bad Request'
         headers = [('Content-type', 'text/html; charset=UTF-8')]
