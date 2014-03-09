@@ -37,8 +37,11 @@ def application(environ, start_response):
     return [body]
 
 # and CGI just runs as a shell executable
-if "__main__" == __name__:
+def cgi_app():
     from wsgiref.handlers import CGIHandler
     CGIHandler().run(application)
+
+if "__main__" == __name__:
+    cgi_app()
 
 
