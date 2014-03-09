@@ -30,7 +30,7 @@ Contributors
 
 Requires
 ========
-Python v2.7 but see `requirements.txt`_ for a full list
+Python v2.5+ (and possibly earlier?) but see `requirements.txt`_ for a full list
 
 
 
