@@ -1,1 +1,3 @@
-nose
+# library requirements
+# none so far!
+
