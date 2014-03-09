@@ -22,6 +22,7 @@ def application(environ, start_response):
     status = '202 Accepted'
     headers = []
     body = ""
+    sentinel = "webmention:"
     
     source, target = None, None
     form = cgi.FieldStorage(environ=environ, fp=environ["wsgi.input"])
@@ -32,7 +33,7 @@ def application(environ, start_response):
         status = '400 Bad Request'
         headers = [('Content-type', 'text/html; charset=UTF-8')]
         body = "source or target form params missing\n"
-    print >> sys.stderr, "%s\t%s" % (source, target)
+    print >> sys.stderr, "%s%s\t%s" % (sentinel, source, target)
     
     start_response(status, headers)
     return [body]
