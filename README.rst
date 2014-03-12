@@ -57,16 +57,19 @@ Why return JSON? Isn't that too complex for a UNIX program?
 ===========================================================
 
 First there was a simple key-value format. Then my next thought was,
-"how do I parse this?" The answer to that question should be unambiguous,
-and should be more like ``sed`` or ``grep``, and not ``awk`` or ``perl``.
-and I didn't want to emit several lines per webmention to facilitate simple
+"how do I parse this?" The answer to that question should be reasonable,
+more like ``sed`` or ``grep``, not ``awk`` or ``perl``.
+I didn't want to emit several lines per webmention to facilitate simple
 key-value parsing. So the result is something like:
 
 .. code:: bash
 
-	pauloppenheim@host:~$ cat msg.log | sed 's/.*webmention_recv:\(.*\)/\1/' | python -m json.tool
+	cat msg.log | sed 's/.*webmention_recv:\(.*\)/\1/' | python -m json.tool
 
 which sadly isn't entirely simple, but does facilitate a unix pipeline style.
+
+There are several JSON programs for handling the final step, such as
+`jshon <http://kmkeen.com/jshon/>`_
 
 
 
