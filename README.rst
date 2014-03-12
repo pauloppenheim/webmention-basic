@@ -7,6 +7,18 @@ Trivial
 receiver in python, wsgi or cgi.
 
 
+What does it do?
+================
+
+Simply receives mentions and logs calls to stderr, does not implement any
+fetching, parsing, or other verification.
+No examination of the path is done; assuming that is managed outside of the app.
+If you want that, check out
+`Dainin <https://github.com/bear/dainin>`_ or
+`Ronkyuu <https://github.com/bear/ronkyuu>`_.
+
+
+
 Why would you want this?
 ========================
 
@@ -41,14 +53,20 @@ receiving the message.
 
 
 
-What does it do?
-================
+Why return JSON? Isn't that too complex for a UNIX program?
+===========================================================
 
-Simply receives and logs calls to stderr, does not implement verification, parsing.
-No examination of the path is done; assuming that is managed outside of the app.
-If you want that, check out
-`Dainin <https://github.com/bear/dainin>`_ or
-`Ronkyuu <https://github.com/bear/ronkyuu>`_.
+First there was a simple key-value format. Then my next thought was,
+"how do I parse this?" The answer to that question should be unambiguous,
+and should be more like ``sed`` or ``grep``, and not ``awk`` or ``perl``.
+and I didn't want to emit several lines per webmention to facilitate simple
+key-value parsing. So the result is something like:
+
+.. code:: bash
+
+	pauloppenheim@host:~$ cat msg.log | sed 's/.*webmention_recv:\(.*\)/\1/' | python -m json.tool
+
+which sadly isn't entirely simple, but does facilitate a unix pipeline style.
 
 
 

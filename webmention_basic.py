@@ -5,15 +5,18 @@
 :copyright: (c) 2014 by Paul Oppenheim
 :license: MIT, see LICENSE for more details.
 
-Trivial listener for
-`IndieWeb <http://indiewebcamp.com>`_ `webmentions <http://webmention.org>`_
-in python.
+Trivial
+`IndieWeb <http://indiewebcamp.com>`_ `webmention <http://webmention.org>`_
+receiver in python, wsgi or cgi.
 
-  webmention
 """
 
 import sys
 import cgi
+try:
+    import json
+except ImportError:
+    import simplejson as json
 
 # must be called "application" to be run by mod_wsgi
 def application(environ, start_response):
@@ -22,18 +25,20 @@ def application(environ, start_response):
     status = '202 Accepted'
     headers = []
     body = ""
-    sentinel = "webmention:"
-    
-    source, target = None, None
     form = cgi.FieldStorage(environ=environ, fp=environ["wsgi.input"])
-    if form:
-        source=form.getfirst("source").strip()
-        target=form.getfirst("target").strip()
+    err = environ.get("wsgi.errors", sys.stderr)
+    
+    sentinel = "webmention_recv:"
+    source = form.getfirst("source", "").strip()
+    target = form.getfirst("target", "").strip()
+    remote_host = environ.get("REMOTE_HOST", "")
+    
     if source is None or target is None:
         status = '400 Bad Request'
         headers = [('Content-type', 'text/html; charset=UTF-8')]
         body = "source or target form params missing\n"
-    print >> sys.stderr, "%s%s\t%s" % (sentinel, source, target)
+    result = dict(remote_host=remote_host, source=source, target=target)
+    err.write("%s%s\n" % (sentinel, json.dumps(result)))
     
     start_response(status, headers)
     return [body]
