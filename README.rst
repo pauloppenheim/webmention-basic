@@ -3,8 +3,8 @@ webmention-basic
 ================
 
 Trivial
-`IndieWeb <http://indiewebcamp.com>`_ `webmentions <http://webmention.org>`_
-receiver in python, wsgi or cgi.
+`IndieWeb <http://indiewebcamp.com>`_ `webmention <http://webmention.org>`_
+receiver in python, wsgi or cgi; echo for webmentions.
 
 
 What does it do?

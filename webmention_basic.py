@@ -7,7 +7,7 @@
 
 Trivial
 `IndieWeb <http://indiewebcamp.com>`_ `webmention <http://webmention.org>`_
-receiver in python, wsgi or cgi.
+receiver in python, wsgi or cgi; echo for webmentions.
 
 """
 
